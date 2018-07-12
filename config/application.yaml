@@ -1,0 +1,47 @@
+distributors:
+  - name : olx
+    url: https://www.olx.ua
+    path: /nedvizhimost/kvartiry-komnaty/arenda-kvartir-komnat/kvartira/kiev/
+    minPrice: 7000
+    maxPrice: 10000
+    minRooms: 1
+    maxRooms: 3
+    order: created_at:desc
+    #0 - all, 1 -w/o commission
+    commissionAllow: true
+    districts:
+    - Holoseevsky
+  #  - Darnitsky
+  #  - Densyansky
+  #  - Dneprovsky
+    - Obolonsky
+    - Pechersky
+    - Podolsky
+  #  - Svyatoshinsky
+  #  - Solomensky
+    - Schevchenkovsky
+  - name: ria
+    url: https://dom.ria.com
+    path: /ru/search/
+    minPrice: 7000
+    maxPrice: 10000
+    minRooms: 1
+    maxRooms: 3
+    order: per_day
+    #0 - all, 1 -w/o commission
+    commissionAllow: true
+    districts:
+    - Holoseevsky
+  #  - Darnitsky
+  #  - Densyansky
+  #  - Dneprovsky
+    - Obolonsky
+    - Pechersky
+    - Podolsky
+  #  - Svyatoshinsky
+  #  - Solomensky
+    - Schevchenkovsky
+bots :
+  telegram:
+interval: 300
+agent : Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
