@@ -7,6 +7,7 @@ import org.jsoup.nodes.Document;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 
 public interface DistributorInterface {
 
@@ -18,6 +19,6 @@ public interface DistributorInterface {
 
     void executeQueries();
 
-    Offer parse(Document element);
+    List<Offer> parse(Document document);
 
 }

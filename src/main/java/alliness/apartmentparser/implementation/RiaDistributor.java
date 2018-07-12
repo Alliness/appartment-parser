@@ -4,11 +4,15 @@ import alliness.apartmentparser.dto.AppConfig;
 import alliness.apartmentparser.dto.Offer;
 import alliness.apartmentparser.enums.DistrictsEnum;
 import org.apache.http.client.utils.URIBuilder;
+import org.json.JSONObject;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class RiaDistributor extends BaseDistributor{
 
@@ -63,8 +67,13 @@ public class RiaDistributor extends BaseDistributor{
     }
 
     @Override
-    public Offer parse(Document element) {
-        return null;
+    public List<Offer> parse(Document document) {
+        JSONObject response = new JSONObject(document.body().text());
+
+        //todo parse this.
+        ArrayList<Offer> offersList = new ArrayList<>();
+        return offersList;
+
     }
 
 }
