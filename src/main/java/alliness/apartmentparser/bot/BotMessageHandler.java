@@ -7,7 +7,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 public class BotMessageHandler {
 
 
-//    public static void sendInfo(Long chatId, OlxBot olxBot) {
+//    public static void sendInfo(Long chatId, TelgeramBot olxBot) {
 //        SendMessage message = new SendMessage();
 //        message.setChatId(chatId);
 //
@@ -28,7 +28,7 @@ public class BotMessageHandler {
 //        );
 //        sb.append(String.format("<i>Интервал поиска каждые: %s секунд</i>\n", Config.getInstance().getConfig().getApp().getPingInterval()));
 //        sb.append(String.format("<i>Всего собрано обявлений: %s</i>\n", OlxClient.getInstance().getOffers().size()));
-//        sb.append(String.format("<i>Подписано на рассылку: %s </i>\n", OlxBot.getInstance().getChats().length()));
+//        sb.append(String.format("<i>Подписано на рассылку: %s </i>\n", TelgeramBot.getInstance().getChats().length()));
 //        message.setText(sb.toString());
 //        message.setParseMode("HTML");
 //        try {
@@ -38,7 +38,7 @@ public class BotMessageHandler {
 //        }
 //    }
 
-    public static void sendMessage(JSONArray chats, String text, OlxBot olxBot) {
+    public static void sendMessage(JSONArray chats, String text, TelgeramBot olxBot) {
         for (Object chat : chats) {
             String      chatId  = String.valueOf(chat);
             SendMessage message = new SendMessage(chatId, text.replace("/send", ""));
@@ -51,7 +51,7 @@ public class BotMessageHandler {
         }
     }
 
-    public static void sendHelp(Long chatId, OlxBot olxBot) {
+    public static void sendHelp(Long chatId, TelgeramBot olxBot) {
 
     }
 }

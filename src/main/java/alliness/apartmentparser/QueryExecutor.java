@@ -6,9 +6,7 @@ import alliness.apartmentparser.interfaces.DistributorInterface;
 import org.apache.log4j.Logger;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -47,14 +45,16 @@ public class QueryExecutor implements Runnable {
             }
 
             List<Offer> offers = distributor.parse(request.execute().parse());
+            log.info(String.format("[%s][%s]got %s parsed messages", distributor.getConfig().getName(),district.enName, offers.size()));
+            offers.removeIf(offer -> distributor.getOffersIds().contains(offer.getOfferId()));
+            offers.forEach(offer -> distributor.addOfferId(offer.getOfferId()));
+            log.info(String.format("[%s][%s]got %s filterd messages", distributor.getConfig().getName(),district.enName, offers.size()));
 
-            offers.forEach(offer -> System.out.println(String.format(
-                    "[%s][%s]\n[%s]", distributor.getConfig().getName(),
-                    district.enName,
-                    offer.serialize().toString(2)
-            )));
+            for (Offer offer : offers) {
+                System.out.println(offer.serialize().toString());
+            }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

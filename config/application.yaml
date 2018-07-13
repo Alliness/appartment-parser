@@ -1,26 +1,26 @@
 distributors:
-#  - name : olx
-#    type : html
-#    url: https://www.olx.ua
-#    path: /nedvizhimost/kvartiry-komnaty/arenda-kvartir-komnat/kvartira/kiev/
-#    minPrice: 7000
-#    maxPrice: 10000
-#    minRooms: 1
-#    maxRooms: 3
-#    order: created_at:desc
-#    #0 - all, 1 -w/o commission
-#    commissionAllow: true
-#    districts:
-#    - Holoseevsky
-#  #  - Darnitsky
-#  #  - Densyansky
-#  #  - Dneprovsky
-#    - Obolonsky
-#    - Pechersky
-#    - Podolsky
-#  #  - Svyatoshinsky
-#  #  - Solomensky
-#    - Schevchenkovsky
+  - name : olx
+    type : html
+    url: https://www.olx.ua
+    path: /nedvizhimost/kvartiry-komnaty/arenda-kvartir-komnat/kvartira/kiev/
+    minPrice: 7000
+    maxPrice: 10000
+    minRooms: 1
+    maxRooms: 3
+    order: created_at:desc
+    #0 - all, 1 -w/o commission
+    commissionAllow: true
+    districts:
+    - Holoseevsky
+  #  - Darnitsky
+  #  - Densyansky
+  #  - Dneprovsky
+    - Obolonsky
+    - Pechersky
+    - Podolsky
+  #  - Svyatoshinsky
+  #  - Solomensky
+    - Schevchenkovsky
   - name: ria
     type : json
     url: https://dom.ria.com

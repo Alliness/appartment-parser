@@ -14,14 +14,14 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import java.io.File;
 import java.io.IOException;
 
-public class OlxBot extends TelegramLongPollingBot {
+public class TelgeramBot extends TelegramLongPollingBot {
 
-    private static final Logger log = Logger.getLogger(OlxBot.class);
-    private static       OlxBot instance;
+    private static final Logger      log = Logger.getLogger(TelgeramBot.class);
+    private static       TelgeramBot instance;
 
-    public static OlxBot getInstance() {
+    public static TelgeramBot getInstance() {
         if (instance == null) {
-            instance = new OlxBot();
+            instance = new TelgeramBot();
         }
         return instance;
     }

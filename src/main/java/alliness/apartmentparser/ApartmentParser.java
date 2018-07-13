@@ -2,8 +2,12 @@ package alliness.apartmentparser;
 
 import alliness.apartmentparser.dto.AppConfig;
 import alliness.apartmentparser.interfaces.DistributorInterface;
+import alliness.core.helpers.FWriter;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -18,11 +22,17 @@ public class ApartmentParser {
     private List<DistributorInterface> distributors;
     ScheduledExecutorService executor;
 
-    ApartmentParser() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, URISyntaxException {
+    ApartmentParser() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, IOException {
 
         distributors = new ArrayList<>();
-
+        new File("data").mkdir();
         for (AppConfig.Distributors distributor : Config.get().getDistributors()) {
+            File file = new File("data/offers_"+distributor.getName()+".json");
+            if (!file.exists()) {
+                file.createNewFile();
+                FWriter.writeToFile(new JSONArray().toString(), file, false);
+
+            }
             log.info(String.format("Register new Distributor: %s", distributor.getName()));
             register(DistributorBuilder.fromConfig(distributor));
         }

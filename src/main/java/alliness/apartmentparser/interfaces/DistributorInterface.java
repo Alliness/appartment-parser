@@ -21,4 +21,7 @@ public interface DistributorInterface {
 
     List<Offer> parse(Document document);
 
+    List<String> getOffersIds();
+
+    boolean addOfferId(String offers);
 }

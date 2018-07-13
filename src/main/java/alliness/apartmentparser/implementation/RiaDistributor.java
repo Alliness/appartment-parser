@@ -3,12 +3,17 @@ package alliness.apartmentparser.implementation;
 import alliness.apartmentparser.dto.AppConfig;
 import alliness.apartmentparser.dto.Offer;
 import alliness.apartmentparser.enums.DistrictsEnum;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.net.URI;
@@ -20,7 +25,7 @@ import java.util.List;
 public class RiaDistributor extends BaseDistributor {
 
 
-    public RiaDistributor(AppConfig.Distributors config) {
+    public RiaDistributor(AppConfig.Distributors config) throws IOException {
         super(config);
     }
 
@@ -73,6 +78,8 @@ public class RiaDistributor extends BaseDistributor {
     @Override
     public List<Offer> parse(Document document) {
         JSONObject response = new JSONObject(document.body().text());
+        ArrayList<Offer> offersList = new ArrayList<>();
+
         try {
 
             for (Object item : response.getJSONArray("items")) {
@@ -84,35 +91,36 @@ public class RiaDistributor extends BaseDistributor {
 
                 String raw = Jsoup.connect(String.valueOf(rq))
                                   .ignoreContentType(true)
+                                  .header("Content-type", "application/json")
                                   .get()
                                   .body()
                                   .text();
 
-                Offer      offer  = new Offer();
-                JSONObject result = new JSONObject(raw);
-                System.out.println(response.toString(2));
+                Offer       offer    = new Offer();
+                JSONObject  result   = new JSONObject(raw);
 
                 offer.setOfferId(result.getString("_id").replace("realty-", ""));
                 offer.setTitle(String.format("%s, %s, %s-к.",
-                                             result.getString("city_name"),
-                                             result.getString("street_name"),
-                                             result.getInt("rooms_count")
-                                             ));
+                        result.getString("city_name"),
+                        result.getString("street_name"),
+                        result.getInt("rooms_count")
+                ));
                 offer.setDate(result.getString("created_at"));
                 offer.setLocation(result.getString("district_name"));
                 offer.setLink(String.format("%s/ru/%s",
-                                            getConfig().getUrl(),
-                                            result.getString("beautiful_url")
-                                            ));
-                offer.setPrice(String.valueOf(result.getInt("price")));
+                        getConfig().getUrl(),
+                        result.getString("beautiful_url")
+                ));
 
-                System.out.println(offer.serialize().toString(2));
+                offer.setPrice(String.valueOf(result.getInt("price")));
+                offersList.add(offer);
             }
-        } catch (URISyntaxException | IOException | JSONException e ) {
+        } catch (URISyntaxException | IOException e) {
             log.error(e.getMessage(), e);
+            System.exit(-1);
+        } catch (JSONException ignored) {
         }
 
-        ArrayList<Offer> offersList = new ArrayList<>();
         return offersList;
 
     }

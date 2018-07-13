@@ -8,6 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.List;
 public class OlxDistributor extends BaseDistributor {
 
 
-    public OlxDistributor(AppConfig.Distributors config) {
+    public OlxDistributor(AppConfig.Distributors config) throws IOException {
         super(config);
     }
 
