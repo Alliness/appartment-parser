@@ -1,6 +1,7 @@
 package alliness.apartmentparser.implementation;
 
 import alliness.apartmentparser.Config;
+import alliness.apartmentparser.DataReader;
 import alliness.apartmentparser.QueryExecutor;
 import alliness.apartmentparser.dto.AppConfig;
 import alliness.apartmentparser.dto.Offer;
@@ -28,10 +29,11 @@ public abstract class BaseDistributor implements DistributorInterface {
     Logger log = Logger.getLogger(BaseDistributor.class);
     private List<String> offers = Collections.synchronizedList(new ArrayList<>());
     private File         file;
+    private List<Offer>  lastOffers;
 
-    public BaseDistributor(AppConfig.Distributors config) throws IOException {
+    public BaseDistributor(AppConfig.Distributors config) {
         this.config = config;
-
+        lastOffers = new ArrayList<>();
         executor = Executors.newScheduledThreadPool(config.getDistricts().size());
 
         log.info(String.format(
@@ -41,7 +43,7 @@ public abstract class BaseDistributor implements DistributorInterface {
                 Config.get().getInterval()
         ));
 
-        file = new File("data/offers_" + config.getName() + ".json");
+        file = DataReader.getInstance().getFileForDistributor(config.getName());
 
         for (Object o : FReader.readJSONArray(file).toList()) {
             offers.add((String) o);
@@ -87,5 +89,14 @@ public abstract class BaseDistributor implements DistributorInterface {
         return false;
     }
 
+    @Override
+    public void addLastOffers(List<Offer> offers) {
+        lastOffers.clear();
+        lastOffers.addAll(offers);
+    }
 
+    @Override
+    public List<Offer> getLastOffers() {
+        return lastOffers;
+    }
 }

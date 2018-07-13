@@ -24,4 +24,8 @@ public interface DistributorInterface {
     List<String> getOffersIds();
 
     boolean addOfferId(String offers);
+
+    void addLastOffers(List<Offer> offers);
+
+    List<Offer> getLastOffers();
 }

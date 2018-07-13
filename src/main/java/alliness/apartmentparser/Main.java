@@ -1,18 +1,19 @@
 package alliness.apartmentparser;
 
-import alliness.apartmentparser.bot.TelgeramBot;
+import alliness.apartmentparser.bot.TelegramBot;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Config.get();
+        DataReader.getInstance();
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
-            telegramBotsApi.registerBot(TelgeramBot.getInstance());
+            telegramBotsApi.registerBot(TelegramBot.getInstance());
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

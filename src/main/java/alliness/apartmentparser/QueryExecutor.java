@@ -1,5 +1,6 @@
 package alliness.apartmentparser;
 
+import alliness.apartmentparser.bot.TelegramBot;
 import alliness.apartmentparser.dto.Offer;
 import alliness.apartmentparser.enums.DistrictsEnum;
 import alliness.apartmentparser.interfaces.DistributorInterface;
@@ -45,14 +46,16 @@ public class QueryExecutor implements Runnable {
             }
 
             List<Offer> offers = distributor.parse(request.execute().parse());
-            log.info(String.format("[%s][%s]got %s parsed messages", distributor.getConfig().getName(),district.enName, offers.size()));
             offers.removeIf(offer -> distributor.getOffersIds().contains(offer.getOfferId()));
             offers.forEach(offer -> distributor.addOfferId(offer.getOfferId()));
-            log.info(String.format("[%s][%s]got %s filterd messages", distributor.getConfig().getName(),district.enName, offers.size()));
+            log.info(String.format("[%s][%s]got %s new offers", distributor.getConfig().getName(), district.enName, offers.size()));
 
             for (Offer offer : offers) {
-                System.out.println(offer.serialize().toString());
+                TelegramBot.getInstance().sendMessage(offer);
             }
+            distributor.addLastOffers(offers);
+
+            offers.clear();
 
         } catch (Exception e) {
             e.printStackTrace();
