@@ -4,17 +4,20 @@ import alliness.apartmentparser.dto.AppConfig;
 import alliness.apartmentparser.dto.Offer;
 import alliness.apartmentparser.enums.DistrictsEnum;
 import org.apache.http.client.utils.URIBuilder;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RiaDistributor extends BaseDistributor{
+public class RiaDistributor extends BaseDistributor {
 
 
     public RiaDistributor(AppConfig.Distributors config) {
@@ -49,7 +52,7 @@ public class RiaDistributor extends BaseDistributor{
 
     @Override
     public HashMap<String, String> getQueryMapping() {
-        return new HashMap<String, String>(){{
+        return new HashMap<String, String>() {{
             put("category", "1");
             put("realty_type", "2");
             put("operation_type", "3");
@@ -66,11 +69,49 @@ public class RiaDistributor extends BaseDistributor{
         }};
     }
 
+    //https://dom.ria.com/node/searchEngine/v2/view/realty/14434267?lang_id=2
     @Override
     public List<Offer> parse(Document document) {
         JSONObject response = new JSONObject(document.body().text());
+        try {
 
-        //todo parse this.
+            for (Object item : response.getJSONArray("items")) {
+
+                URI rq = new URIBuilder(getConfig().getUrl())
+                        .setPath(String.format("%s/view/realty/%s", getConfig().getPath(), item))
+                        .setParameter("lang_id", "2")
+                        .build();
+
+                String raw = Jsoup.connect(String.valueOf(rq))
+                                  .ignoreContentType(true)
+                                  .get()
+                                  .body()
+                                  .text();
+
+                Offer      offer  = new Offer();
+                JSONObject result = new JSONObject(raw);
+                System.out.println(response.toString(2));
+
+                offer.setOfferId(result.getString("_id").replace("realty-", ""));
+                offer.setTitle(String.format("%s, %s, %s-к.",
+                                             result.getString("city_name"),
+                                             result.getString("street_name"),
+                                             result.getInt("rooms_count")
+                                             ));
+                offer.setDate(result.getString("created_at"));
+                offer.setLocation(result.getString("district_name"));
+                offer.setLink(String.format("%s/ru/%s",
+                                            getConfig().getUrl(),
+                                            result.getString("beautiful_url")
+                                            ));
+                offer.setPrice(String.valueOf(result.getInt("price")));
+
+                System.out.println(offer.serialize().toString(2));
+            }
+        } catch (URISyntaxException | IOException | JSONException e ) {
+            log.error(e.getMessage(), e);
+        }
+
         ArrayList<Offer> offersList = new ArrayList<>();
         return offersList;
 

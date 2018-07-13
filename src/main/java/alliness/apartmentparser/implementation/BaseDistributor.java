@@ -16,7 +16,7 @@ public abstract class BaseDistributor implements DistributorInterface {
 
     private final ScheduledExecutorService executor;
     private       AppConfig.Distributors   config;
-    private       Logger                   log = Logger.getLogger(BaseDistributor.class);
+    Logger log = Logger.getLogger(BaseDistributor.class);
 
     public BaseDistributor(AppConfig.Distributors config) {
         this.config = config;
@@ -32,11 +32,11 @@ public abstract class BaseDistributor implements DistributorInterface {
 
     public void executeQueries() {
         getQueries().forEach((districtsEnum, uri) ->
-                executor.scheduleWithFixedDelay(
-                        new QueryExecutor(districtsEnum, uri, this),
-                        0,
-                        Config.get().getInterval(),
-                        TimeUnit.SECONDS)
+                                     executor.scheduleWithFixedDelay(
+                                             new QueryExecutor(districtsEnum, uri, this),
+                                             0,
+                                             Config.get().getInterval(),
+                                             TimeUnit.SECONDS)
         );
     }
 
