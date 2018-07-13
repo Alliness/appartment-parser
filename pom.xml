@@ -28,7 +28,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>alliness.olxparser.Main</mainClass>
+                            <mainClass>alliness.apartmentparser.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

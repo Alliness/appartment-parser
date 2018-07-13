@@ -13,10 +13,10 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import java.io.File;
 import java.util.Map;
 
-public class BotMessageHandler {
+class BotMessageHandler {
 
 
-    public static void sendInfo(Long chatId, TelegramBot telegramBot) throws TelegramApiException {
+    static void sendInfo(Long chatId, TelegramBot telegramBot) throws TelegramApiException {
         StringBuilder builder = new StringBuilder();
 
         builder.append("<b>Application info</b>\n\n");
@@ -52,7 +52,7 @@ public class BotMessageHandler {
         telegramBot.execute(message);
     }
 
-    public static void sendHelp(Long chatId, TelegramBot telegramBot) throws TelegramApiException {
+    static void sendHelp(Long chatId, TelegramBot telegramBot) throws TelegramApiException {
 
         StringBuilder builder = new StringBuilder();
 
@@ -72,7 +72,7 @@ public class BotMessageHandler {
         telegramBot.execute(message);
     }
 
-    public static void sendDistributorsInfo(DistributorInterface distributorInterface, Long chatId, TelegramBot telegramBot) throws TelegramApiException {
+    static void sendDistributorsInfo(DistributorInterface distributorInterface, Long chatId, TelegramBot telegramBot) throws TelegramApiException {
 
         SendMessage message = new SendMessage();
         message.setParseMode("HTML");
@@ -84,7 +84,7 @@ public class BotMessageHandler {
         telegramBot.execute(message);
     }
 
-    public static void sendSubscribeNotice(Long chatId, TelegramBot telegramBot) throws TelegramApiException {
+    static void sendSubscribeNotice(Long chatId, TelegramBot telegramBot) throws TelegramApiException {
         SendMessage message = new SendMessage();
         message.setParseMode("HTML");
         message.setText("<b>current chat added to subscribers</b>");
@@ -92,7 +92,7 @@ public class BotMessageHandler {
         telegramBot.execute(message);
     }
 
-    public static void sendUnSubscribeNotice(Long chatId, TelegramBot telegramBot) throws TelegramApiException {
+    static void sendUnSubscribeNotice(Long chatId, TelegramBot telegramBot) throws TelegramApiException {
         SendMessage message = new SendMessage();
         message.setParseMode("HTML");
         message.setText("<b>current chat removed from subscribers</b>");
