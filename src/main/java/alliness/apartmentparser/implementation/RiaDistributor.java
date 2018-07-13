@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.http.client.utils.URIBuilder;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -111,8 +112,8 @@ public class RiaDistributor extends BaseDistributor {
                         getConfig().getUrl(),
                         result.getString("beautiful_url")
                 ));
-
-                offer.setPrice(String.valueOf(result.getInt("price")));
+                JSONArray prices = result.getJSONArray("priceArr");
+                offer.setPrice(prices.getString(prices.length()-1));
                 offersList.add(offer);
             }
         } catch (URISyntaxException | IOException e) {

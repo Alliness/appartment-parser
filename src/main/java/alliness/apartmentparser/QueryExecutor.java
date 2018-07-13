@@ -30,10 +30,9 @@ public class QueryExecutor implements Runnable {
         try {
 
             log.info(String.format(
-                    "[%s] execute request for district [%s]\n%s",
+                    "[%s] execute request for district [%s]",
                     distributor.getConfig().getName(),
-                    district.enName,
-                    uri.toString()
+                    district.enName
             ));
 
             Connection request = Jsoup.connect(String.valueOf(uri)).userAgent(Config.get().getAgent());
