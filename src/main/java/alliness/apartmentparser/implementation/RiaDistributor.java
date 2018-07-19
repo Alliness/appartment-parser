@@ -1,14 +1,11 @@
 package alliness.apartmentparser.implementation;
 
+import alliness.apartmentparser.Config;
 import alliness.apartmentparser.dto.AppConfig;
 import alliness.apartmentparser.dto.Offer;
+import alliness.apartmentparser.enums.DistributorResponseType;
 import alliness.apartmentparser.enums.DistrictsEnum;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-import org.apache.commons.text.StringEscapeUtils;
+import alliness.apartmentparser.interfaces.DistributorMethodType;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,7 +75,7 @@ public class RiaDistributor extends BaseDistributor {
     //https://dom.ria.com/node/searchEngine/v2/view/realty/14434267?lang_id=2
     @Override
     public List<Offer> parse(Document document) {
-        JSONObject response = new JSONObject(document.body().text());
+        JSONObject       response   = new JSONObject(document.body().text());
         ArrayList<Offer> offersList = new ArrayList<>();
 
         try {
@@ -97,8 +94,8 @@ public class RiaDistributor extends BaseDistributor {
                                   .body()
                                   .text();
 
-                Offer       offer    = new Offer();
-                JSONObject  result   = new JSONObject(raw);
+                Offer      offer  = new Offer();
+                JSONObject result = new JSONObject(raw);
 
                 offer.setOfferId(result.getString("_id").replace("realty-", ""));
                 offer.setTitle(String.format("%s, %s, %s-к.",
@@ -113,7 +110,7 @@ public class RiaDistributor extends BaseDistributor {
                         result.getString("beautiful_url")
                 ));
                 JSONArray prices = result.getJSONArray("priceArr");
-                offer.setPrice(prices.getString(prices.length()-1));
+                offer.setPrice(prices.getString(prices.length() - 1));
                 offersList.add(offer);
             }
         } catch (URISyntaxException | IOException e) {
@@ -124,6 +121,21 @@ public class RiaDistributor extends BaseDistributor {
 
         return offersList;
 
+    }
+
+    @Override
+    public DistributorResponseType getResponseType() {
+        return DistributorResponseType.JSON;
+    }
+
+    @Override
+    public DistributorMethodType getMethodType() {
+        return DistributorMethodType.GET;
+    }
+
+    @Override
+    public String getRequestData() {
+        return null;
     }
 
 }

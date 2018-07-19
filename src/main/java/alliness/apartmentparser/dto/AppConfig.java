@@ -33,8 +33,6 @@ public class AppConfig extends Serializable {
     public static class Distributors {
         private String name;
 
-        public String type;
-
         private String url;
 
         private String path;
@@ -91,10 +89,6 @@ public class AppConfig extends Serializable {
 
         public List<String> getDistricts() {
             return districts;
-        }
-
-        public String getType() {
-            return type;
         }
     }
 

@@ -2,6 +2,7 @@ package alliness.apartmentparser.enums;
 
 public enum DistrictsEnum {
 
+    All(0, 0, "Все", "All"),
     Holoseevsky(1, 15184,"Голосеевский", "Holoseevsky"),
     Darnitsky(3, 15181,"Дарницкий", "Darnitsky"),
     Densyansky(5, 15183,"Деснянский", "Densyansky"),

@@ -5,8 +5,10 @@ import alliness.apartmentparser.dto.Offer;
 import alliness.apartmentparser.enums.DistrictsEnum;
 import alliness.apartmentparser.interfaces.DistributorInterface;
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.net.URI;
 import java.util.List;
@@ -30,21 +32,36 @@ public class QueryExecutor implements Runnable {
         try {
 
             log.info(String.format(
-                    "[%s] execute request for district [%s]",
+                    "[%s] execute request for district [%s], %s",
                     distributor.getConfig().getName(),
-                    district.enName
+                    district.enName,
+                    uri
             ));
 
-            Connection request = Jsoup.connect(String.valueOf(uri)).userAgent(Config.get().getAgent());
-            switch (distributor.getConfig().getType()) {
-                case "html":
+            Connection request  = Jsoup.connect(String.valueOf(uri)).userAgent(Config.get().getAgent());
+            Document   document = null;
+            switch (distributor.getResponseType()) {
+                case HTML:
                     break;
-                case "json":
+                case JSON:
                     request.ignoreContentType(true);
+                    request.header("Content-Type", "application/json");
                     break;
             }
 
-            List<Offer> offers = distributor.parse(request.execute().parse());
+            switch (distributor.getMethodType()) {
+                case GET:
+                    document = request.execute().parse();
+                    break;
+                case POST:
+                    request.method(Connection.Method.POST).requestBody(distributor.getRequestData().toString());
+                    document = request.execute().parse();
+                    break;
+            }
+
+            assert document != null;
+
+            List<Offer> offers = distributor.parse(document);
             offers.removeIf(offer -> distributor.getOffersIds().contains(offer.getOfferId()));
             offers.forEach(offer -> distributor.addOfferId(offer.getOfferId()));
             log.info(String.format("[%s][%s]got %s new offers", distributor.getConfig().getName(), district.enName, offers.size()));

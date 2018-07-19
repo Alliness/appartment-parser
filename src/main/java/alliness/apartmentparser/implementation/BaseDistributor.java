@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,7 +26,7 @@ public abstract class BaseDistributor implements DistributorInterface {
     private final ScheduledExecutorService executor;
     private       AppConfig.Distributors   config;
     Logger log = Logger.getLogger(BaseDistributor.class);
-    private List<String> offers = Collections.synchronizedList(new ArrayList<>());
+    private List<String> offers            = Collections.synchronizedList(new ArrayList<>());
     private File         file;
     private List<Offer>  lastOffers;
 

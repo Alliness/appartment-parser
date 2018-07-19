@@ -2,7 +2,9 @@ package alliness.apartmentparser.implementation;
 
 import alliness.apartmentparser.dto.AppConfig;
 import alliness.apartmentparser.dto.Offer;
+import alliness.apartmentparser.enums.DistributorResponseType;
 import alliness.apartmentparser.enums.DistrictsEnum;
+import alliness.apartmentparser.interfaces.DistributorMethodType;
 import org.apache.http.client.utils.URIBuilder;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,7 +20,7 @@ import java.util.List;
 public class OlxDistributor extends BaseDistributor {
 
 
-    public OlxDistributor(AppConfig.Distributors config) throws IOException {
+    public OlxDistributor(AppConfig.Distributors config) {
         super(config);
     }
 
@@ -65,6 +67,21 @@ public class OlxDistributor extends BaseDistributor {
 
         return offersList;
 
+    }
+
+    @Override
+    public DistributorResponseType getResponseType() {
+        return DistributorResponseType.HTML;
+    }
+
+    @Override
+    public DistributorMethodType getMethodType() {
+        return DistributorMethodType.GET;
+    }
+
+    @Override
+    public String getRequestData() {
+        return null;
     }
 
     public HashMap<DistrictsEnum, URI> getQueries() {

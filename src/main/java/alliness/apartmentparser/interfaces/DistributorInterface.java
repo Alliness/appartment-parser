@@ -2,6 +2,7 @@ package alliness.apartmentparser.interfaces;
 
 import alliness.apartmentparser.dto.AppConfig;
 import alliness.apartmentparser.dto.Offer;
+import alliness.apartmentparser.enums.DistributorResponseType;
 import alliness.apartmentparser.enums.DistrictsEnum;
 import org.jsoup.nodes.Document;
 
@@ -28,4 +29,11 @@ public interface DistributorInterface {
     void addLastOffers(List<Offer> offers);
 
     List<Offer> getLastOffers();
+
+    DistributorResponseType getResponseType();
+
+    DistributorMethodType getMethodType();
+
+    String getRequestData();
+
 }

@@ -1,6 +1,15 @@
 distributors:
+  - name : lun
+    url: https://www.lun.ua
+    path: /api/search/resultsForListingWithMap
+    maxPrice: 10000
+    minRooms: 1,
+    maxRooms: 3
+    districts:
+    - All
+    commissionAllow: true
+    order: today
   - name : olx
-    type : html
     url: https://www.olx.ua
     path: /nedvizhimost/kvartiry-komnaty/arenda-kvartir-komnat/kvartira/kiev/
     minPrice: 7000
@@ -22,7 +31,6 @@ distributors:
   #  - Solomensky
     - Schevchenkovsky
   - name: ria
-    type : json
     url: https://dom.ria.com
     path: /node/searchEngine/v2/
     minPrice: 7000
